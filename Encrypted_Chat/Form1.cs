@@ -179,7 +179,8 @@ namespace Encrypted_Chat
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Title = "Select File";
             openFileDialog1.InitialDirectory = @"C:\";
-            openFileDialog1.Filter = "All files (*.*)|*.*|Text File (*.txt)|*.txt";
+            openFileDialog1.Filter = "Text Files (TXT,PDF)|*.TXT; *.PDF;|Image Files (PNG)|*.PNG;|Audio Files (AVI)|*.AVI;";
+            openFileDialog1.Filter += "";
             openFileDialog1.FilterIndex = 1;
             openFileDialog1.ShowDialog();
             if (openFileDialog1.FileName != "")
