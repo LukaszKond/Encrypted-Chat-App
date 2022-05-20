@@ -174,6 +174,22 @@ namespace Encrypted_Chat
             backgroundWorker2.CancelAsync();
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Title = "Select File";
+            openFileDialog1.InitialDirectory = @"C:\";
+            openFileDialog1.Filter = "All files (*.*)|*.*|Text File (*.txt)|*.txt";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.ShowDialog();
+            if (openFileDialog1.FileName != "")
+            {
+                selectedFile.Text = openFileDialog1.FileName;
+            }
+            else
+            {
+                selectedFile.Text = "{Selected file}";
+            }
+        }
     }
 }

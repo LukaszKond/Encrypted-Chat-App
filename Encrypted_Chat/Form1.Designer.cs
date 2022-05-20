@@ -39,6 +39,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.EncTypeBox = new System.Windows.Forms.GroupBox();
+            this.btnSelectFile = new System.Windows.Forms.Button();
+            this.selectedFile = new System.Windows.Forms.TextBox();
             this.EncTypeBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,11 +137,32 @@
             this.EncTypeBox.TabStop = false;
             this.EncTypeBox.Text = "Encoding Type";
             // 
+            // btnSelectFile
+            // 
+            this.btnSelectFile.Location = new System.Drawing.Point(202, 416);
+            this.btnSelectFile.Name = "btnSelectFile";
+            this.btnSelectFile.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectFile.TabIndex = 9;
+            this.btnSelectFile.Text = "Select File";
+            this.btnSelectFile.UseVisualStyleBackColor = true;
+            this.btnSelectFile.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // selectedFile
+            // 
+            this.selectedFile.Location = new System.Drawing.Point(158, 445);
+            this.selectedFile.Name = "selectedFile";
+            this.selectedFile.Size = new System.Drawing.Size(172, 23);
+            this.selectedFile.TabIndex = 10;
+            this.selectedFile.Text = "{Selected File}";
+            this.selectedFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(485, 450);
+            this.ClientSize = new System.Drawing.Size(485, 490);
+            this.Controls.Add(this.selectedFile);
+            this.Controls.Add(this.btnSelectFile);
             this.Controls.Add(this.EncTypeBox);
             this.Controls.Add(this.Sendbutton);
             this.Controls.Add(this.btnStart);
@@ -169,5 +192,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private GroupBox EncTypeBox;
+        private Button btnSelectFile;
+        private TextBox selectedFile;
     }
 }
