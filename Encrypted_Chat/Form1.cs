@@ -28,7 +28,7 @@ namespace Encrypted_Chat
         public int messageLen;
         byte[] receivedEnc;
 
-
+        private const string defaultSelectedFileText = "No file selected";
 
         public Form1()
         {
@@ -116,6 +116,14 @@ namespace Encrypted_Chat
                 toSend = txtMessage.Text;               
                 backgroundWorker2.RunWorkerAsync();
             }
+
+            if (selectedFile.Text != defaultSelectedFileText)
+            {
+                // Encrypt and Send File
+            }
+
+            selectedFile.Text = defaultSelectedFileText;
+            txtMessage.Text = "";
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -188,7 +196,7 @@ namespace Encrypted_Chat
             }
             else
             {
-                selectedFile.Text = "{Selected file}";
+                selectedFile.Text = defaultSelectedFileText;
             }
         }
 

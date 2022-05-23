@@ -154,7 +154,7 @@
             this.selectedFile.Name = "selectedFile";
             this.selectedFile.Size = new System.Drawing.Size(438, 23);
             this.selectedFile.TabIndex = 10;
-            this.selectedFile.Text = "{Selected File}";
+            this.selectedFile.Text = defaultSelectedFileText;
             this.selectedFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.selectedFile.TextChanged += new System.EventHandler(this.selectedFile_TextChanged);
             // 
