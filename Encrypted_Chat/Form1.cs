@@ -179,7 +179,6 @@ namespace Encrypted_Chat
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Title = "Select File";
             openFileDialog1.InitialDirectory = @"C:\";
-            openFileDialog1.Filter = "Text Files (TXT,PDF)|*.TXT; *.PDF;|Image Files (PNG)|*.PNG;|Audio Files (AVI)|*.AVI;";
             openFileDialog1.Filter += "";
             openFileDialog1.FilterIndex = 1;
             openFileDialog1.ShowDialog();
@@ -191,6 +190,16 @@ namespace Encrypted_Chat
             {
                 selectedFile.Text = "{Selected file}";
             }
+        }
+
+        private void selectedFile_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioECB_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

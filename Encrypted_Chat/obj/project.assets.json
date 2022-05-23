@@ -8,23 +8,23 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Users\\lukasz\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\Encrypted_Chat.csproj",
+      "projectUniqueName": "C:\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\Encrypted_Chat.csproj",
       "projectName": "Encrypted_Chat",
-      "projectPath": "C:\\Users\\user\\Desktop\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\Encrypted_Chat.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\obj\\",
+      "projectPath": "C:\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\Encrypted_Chat.csproj",
+      "packagesPath": "C:\\Users\\lukasz\\.nuget\\packages\\",
+      "outputPath": "C:\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lukasz\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -68,7 +68,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

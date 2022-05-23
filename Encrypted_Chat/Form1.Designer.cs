@@ -117,6 +117,7 @@
             this.radioECB.TabStop = true;
             this.radioECB.Text = "ECB";
             this.radioECB.UseVisualStyleBackColor = true;
+            this.radioECB.CheckedChanged += new System.EventHandler(this.radioECB_CheckedChanged);
             // 
             // backgroundWorker1
             // 
@@ -149,12 +150,13 @@
             // 
             // selectedFile
             // 
-            this.selectedFile.Location = new System.Drawing.Point(158, 445);
+            this.selectedFile.Location = new System.Drawing.Point(35, 445);
             this.selectedFile.Name = "selectedFile";
-            this.selectedFile.Size = new System.Drawing.Size(172, 23);
+            this.selectedFile.Size = new System.Drawing.Size(438, 23);
             this.selectedFile.TabIndex = 10;
             this.selectedFile.Text = "{Selected File}";
             this.selectedFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.selectedFile.TextChanged += new System.EventHandler(this.selectedFile_TextChanged);
             // 
             // Form1
             // 

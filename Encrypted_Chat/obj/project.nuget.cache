@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dFUCSQjvJZhe4nAJp6+DmihpXbdzYOoFir5l3ib/Xi9lo+dgn6xvVdutOIC1PSMKeZQr1T3Em3rIgswxX/OX0A==",
+  "dgSpecHash": "jRos7w61DPclL7ZwSY4CuB+vuanpawDsyR+sbDzJk/nQcuQ4pwvksV6xNuTJX7DSUmy63YNt2E2a+KWmHBT9WQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\Desktop\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\Encrypted_Chat.csproj",
+  "projectFilePath": "C:\\dev\\Encrypted-Chat-App\\Encrypted_Chat\\Encrypted_Chat.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
