@@ -21,6 +21,7 @@ namespace Encrypted_Chat
         public string received;
         
         public string toSend;
+        public string fileToSend;
         TcpListener server = null;
         TcpClient client = null;
         EncryptionManager encryptionManager = null;
@@ -117,9 +118,10 @@ namespace Encrypted_Chat
                 backgroundWorker2.RunWorkerAsync();
             }
 
-            if (selectedFile.Text != defaultSelectedFileText)
+            if (selectedFile.Text != defaultSelectedFileText && selectedFile.Text != "")
             {
-                // Encrypt and Send File
+                fileToSend = selectedFile.Text;               
+                backgroundWorker3.RunWorkerAsync();
             }
 
             selectedFile.Text = defaultSelectedFileText;
@@ -154,6 +156,7 @@ namespace Encrypted_Chat
             }
         }
 
+
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
             if (client.Connected)
@@ -171,7 +174,7 @@ namespace Encrypted_Chat
                 writer.WriteLine(toSend2);
 
                 this.txtStatus.Invoke(new MethodInvoker(delegate ()
-                { 
+                {
                     txtStatus.Text += ("[Me]  : " + toSend + "\r\n");
                 }));
             }
@@ -181,6 +184,27 @@ namespace Encrypted_Chat
             }
             backgroundWorker2.CancelAsync();
         }
+
+        private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (client.Connected)
+            {
+                if (radioECB.Checked)
+                {
+                    encryptionManager.encryptFile(fileToSend, CipherMode.ECB);
+                }
+                else
+                {
+                    encryptionManager.encryptFile(fileToSend, CipherMode.CBC);
+                }                
+            }
+            else
+            {
+                MessageBox.Show("error");
+            }
+            backgroundWorker3.CancelAsync();
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -206,6 +230,11 @@ namespace Encrypted_Chat
         }
 
         private void radioECB_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
         {
 
         }

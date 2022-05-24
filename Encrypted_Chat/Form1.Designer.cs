@@ -41,6 +41,7 @@
             this.EncTypeBox = new System.Windows.Forms.GroupBox();
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.selectedFile = new System.Windows.Forms.TextBox();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.EncTypeBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,9 +155,12 @@
             this.selectedFile.Name = "selectedFile";
             this.selectedFile.Size = new System.Drawing.Size(438, 23);
             this.selectedFile.TabIndex = 10;
-            this.selectedFile.Text = defaultSelectedFileText;
             this.selectedFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.selectedFile.TextChanged += new System.EventHandler(this.selectedFile_TextChanged);
+            // 
+            // backgroundWorker3
+            // 
+            this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
             // 
             // Form1
             // 
@@ -174,6 +178,7 @@
             this.Controls.Add(this.txtAddress);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.EncTypeBox.ResumeLayout(false);
             this.EncTypeBox.PerformLayout();
             this.ResumeLayout(false);
@@ -193,6 +198,7 @@
         private RadioButton radioECB;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
         private GroupBox EncTypeBox;
         private Button btnSelectFile;
         private TextBox selectedFile;

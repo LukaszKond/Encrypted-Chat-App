@@ -58,5 +58,31 @@ namespace Encrypted_Chat
             return Encoding.UTF8.GetString(aes.DecryptEcb(message, PaddingMode.PKCS7));
         }
 
+        public void encryptFile(string filePath, CipherMode cipherMode)
+        {
+            byte[] saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            string cryptFile = Path.GetFileName(filePath);
+            FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+            using var aes = Aes.Create();
+            aes.Key = session_key;
+            aes.IV = session_iv;
+            aes.Padding = PaddingMode.Zeros;
+            aes.Mode = cipherMode;
+
+            CryptoStream cs = new CryptoStream(fsCrypt,
+                 aes.CreateEncryptor(),
+                CryptoStreamMode.Write);
+
+            FileStream fsIn = new FileStream(filePath, FileMode.Open);
+
+            int data;
+            while ((data = fsIn.ReadByte()) != -1)
+                cs.WriteByte((byte)data);
+
+            fsIn.Close();
+            cs.Close();
+            fsCrypt.Close();
+        }
     }
 }
