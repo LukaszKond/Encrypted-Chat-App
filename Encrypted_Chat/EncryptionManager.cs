@@ -58,31 +58,43 @@ namespace Encrypted_Chat
             return Encoding.UTF8.GetString(aes.DecryptEcb(message, PaddingMode.PKCS7));
         }
 
-        public void encryptFile(string filePath, CipherMode cipherMode)
+        public string encryptFile(string filePath, CipherMode cipherMode)
         {
-            byte[] saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-            string cryptFile = Path.GetFileName(filePath);
-            FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
-
             using var aes = Aes.Create();
             aes.Key = session_key;
             aes.IV = session_iv;
             aes.Padding = PaddingMode.Zeros;
             aes.Mode = cipherMode;
 
-            CryptoStream cs = new CryptoStream(fsCrypt,
-                 aes.CreateEncryptor(),
-                CryptoStreamMode.Write);
-
-            FileStream fsIn = new FileStream(filePath, FileMode.Open);
+            string cryptFile = Path.GetFileName(filePath);
+            using FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+            using CryptoStream cs = new CryptoStream(fsCrypt, aes.CreateEncryptor(), CryptoStreamMode.Write);
+            using FileStream fsIn = new FileStream(filePath, FileMode.Open);
 
             int data;
             while ((data = fsIn.ReadByte()) != -1)
                 cs.WriteByte((byte)data);
 
-            fsIn.Close();
-            cs.Close();
-            fsCrypt.Close();
+            return fsCrypt.Name;
+        }
+
+        public void decryptFile(string filePath, CipherMode cipherMode)
+        {
+            using var aes = Aes.Create();
+            aes.Key = session_key;
+            aes.IV = session_iv;
+            aes.Padding = PaddingMode.Zeros;
+            aes.Mode = cipherMode;
+
+            using FileStream fsOpen = new FileStream(filePath, FileMode.Open);
+            using CryptoStream cs = new CryptoStream(fsOpen, aes.CreateDecryptor(), CryptoStreamMode.Read);
+            string decryptedFileName = "Decrypted " + Path.GetFileName(filePath);
+            using FileStream fsCreate = new FileStream(decryptedFileName, FileMode.Create);
+
+            int data;
+            while ((data = cs.ReadByte()) != -1)
+                fsCreate.WriteByte((byte)data);
+
         }
     }
 }

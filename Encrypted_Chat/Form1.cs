@@ -191,11 +191,27 @@ namespace Encrypted_Chat
             {
                 if (radioECB.Checked)
                 {
-                    encryptionManager.encryptFile(fileToSend, CipherMode.ECB);
+                    string encryptedFilePath = "";
+                    try
+                    {
+                        encryptedFilePath = encryptionManager.encryptFile(fileToSend, CipherMode.ECB);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
                 else
                 {
-                    encryptionManager.encryptFile(fileToSend, CipherMode.CBC);
+                    string encryptedFilePath = "";
+                    try
+                    {
+                        encryptedFilePath = encryptionManager.encryptFile(fileToSend, CipherMode.CBC);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }                
             }
             else
