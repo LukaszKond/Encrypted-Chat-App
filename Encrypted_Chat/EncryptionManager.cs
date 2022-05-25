@@ -19,7 +19,8 @@ namespace Encrypted_Chat
         public byte[] session_iv;
  
         public byte[] partner_publicKey;
-        
+
+        private float encryptionProgress;
         public void GenerateKeys()
         {
              rsa = RSA.Create();
@@ -71,9 +72,12 @@ namespace Encrypted_Chat
             using CryptoStream cs = new CryptoStream(fsCrypt, aes.CreateEncryptor(), CryptoStreamMode.Write);
             using FileStream fsIn = new FileStream(filePath, FileMode.Open);
 
-            int data;
-            while ((data = fsIn.ReadByte()) != -1)
-                cs.WriteByte((byte)data);
+            byte[] readBytes = new byte[4096];
+            while (fsIn.Read(readBytes) != 0)
+            {
+                cs.Write(readBytes);
+                encryptionProgress = (float)fsIn.Position / fsIn.Length;
+            }
 
             return fsCrypt.Name;
         }
@@ -95,6 +99,11 @@ namespace Encrypted_Chat
             while ((data = cs.ReadByte()) != -1)
                 fsCreate.WriteByte((byte)data);
 
+        }
+
+        public float getEncryptionProgress()
+        {
+            return encryptionProgress;
         }
     }
 }

@@ -189,30 +189,8 @@ namespace Encrypted_Chat
         {
             if (client.Connected)
             {
-                if (radioECB.Checked)
-                {
-                    string encryptedFilePath = "";
-                    try
-                    {
-                        encryptedFilePath = encryptionManager.encryptFile(fileToSend, CipherMode.ECB);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-                else
-                {
-                    string encryptedFilePath = "";
-                    try
-                    {
-                        encryptedFilePath = encryptionManager.encryptFile(fileToSend, CipherMode.CBC);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }                
+                var cipher = radioECB.Checked ? CipherMode.ECB : CipherMode.CBC;
+                encryptAndSendFile(cipher);
             }
             else
             {
@@ -221,6 +199,38 @@ namespace Encrypted_Chat
             backgroundWorker3.CancelAsync();
         }
 
+        private void encryptAndSendFile(CipherMode cipher)
+        {
+
+            string encryptedFilePath = "";
+            try
+            {
+                new Thread(updateProgressBar).Start();
+                encryptedFilePath = encryptionManager.encryptFile(fileToSend, cipher);
+
+
+                // at the end delete file
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }       
+        }
+
+        private void updateProgressBar()
+        {
+            FileProgressBar.Minimum = 0;
+            FileProgressBar.Maximum = 100;
+            while (true)
+            {
+                Thread.Sleep(100);
+                FileProgressBar.Invoke(new MethodInvoker(delegate ()
+                {
+                    FileProgressBar.Value = (int) (encryptionManager.getEncryptionProgress() * 100);
+                }));
+                if (encryptionManager.getEncryptionProgress() >= 1) return;
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -251,6 +261,11 @@ namespace Encrypted_Chat
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileProgressBar_Click(object sender, EventArgs e)
         {
 
         }

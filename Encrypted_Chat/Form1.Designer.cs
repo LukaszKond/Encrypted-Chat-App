@@ -42,6 +42,7 @@
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.selectedFile = new System.Windows.Forms.TextBox();
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
+            this.FileProgressBar = new System.Windows.Forms.ProgressBar();
             this.EncTypeBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,11 +163,20 @@
             // 
             this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
             // 
+            // FileProgressBar
+            // 
+            this.FileProgressBar.Location = new System.Drawing.Point(90, 486);
+            this.FileProgressBar.Name = "FileProgressBar";
+            this.FileProgressBar.Size = new System.Drawing.Size(323, 23);
+            this.FileProgressBar.TabIndex = 11;
+            this.FileProgressBar.Click += new System.EventHandler(this.FileProgressBar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(485, 490);
+            this.ClientSize = new System.Drawing.Size(485, 521);
+            this.Controls.Add(this.FileProgressBar);
             this.Controls.Add(this.selectedFile);
             this.Controls.Add(this.btnSelectFile);
             this.Controls.Add(this.EncTypeBox);
@@ -202,5 +212,6 @@
         private GroupBox EncTypeBox;
         private Button btnSelectFile;
         private TextBox selectedFile;
+        private ProgressBar FileProgressBar;
     }
 }
