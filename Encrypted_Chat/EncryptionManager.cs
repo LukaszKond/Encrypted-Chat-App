@@ -19,6 +19,7 @@ namespace Encrypted_Chat
         public byte[] session_iv;
  
         public byte[] partner_publicKey;
+        public byte[] partner_publicIV;
 
         private float encryptionProgress;
 
@@ -35,7 +36,7 @@ namespace Encrypted_Chat
                 Directory.CreateDirectory(Path.Combine(currentPath));
                 Directory.CreateDirectory(Path.Combine(currentPath+"/publicKey"));
                 Directory.CreateDirectory(Path.Combine(currentPath+"/privateKey"));
-                rsa = RSA.Create();
+                rsa = new RSACryptoServiceProvider(2048);
                 _privateKey = rsa.ExportRSAPrivateKey();
                 _publicKey = rsa.ExportRSAPublicKey();
                 using var aes = Aes.Create();
@@ -156,5 +157,7 @@ namespace Encrypted_Chat
         {
             return encryptionProgress;
         }
+
+
     }
 }

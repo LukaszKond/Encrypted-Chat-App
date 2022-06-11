@@ -48,7 +48,7 @@ namespace Encrypted_Chat
 
             encryptionManager = new EncryptionManager();
             encryptionManager.GenerateKeys(txtNazwa.Text, txtPassword.Text);
-            
+
 
             try // connect to server
             {
@@ -60,18 +60,16 @@ namespace Encrypted_Chat
                 writer = new StreamWriter(client.GetStream());
 
                 //exchange public keys
-                session.SendPublicKey(client, encryptionManager._publicKey);
                 encryptionManager.partner_publicKey = session.GetPublicKey(client, encryptionManager._publicKey.Length);
 
-                session.GenerateSessionKey();  
-                
-                using var rsa = RSA.Create();
-                RSAParameters rsaParameters = rsa.ExportParameters(false);
-                rsaParameters.Modulus = encryptionManager.partner_publicKey;
-                rsa.ImportParameters(rsaParameters);
-                
-                writer.WriteLine(Convert.ToBase64String(session.key));
-                writer.WriteLine(Convert.ToBase64String(session.iv));
+                session.GenerateSessionKey();
+
+
+                using var rsa = new RSACryptoServiceProvider(2048);
+                rsa.ImportRSAPublicKey(encryptionManager.partner_publicKey, out var _);
+
+                writer.WriteLine(Convert.ToBase64String(rsa.Encrypt(session.key, RSAEncryptionPadding.Pkcs1)));
+                writer.WriteLine(Convert.ToBase64String(rsa.Encrypt(session.iv, RSAEncryptionPadding.Pkcs1)));
 
 
 
@@ -89,14 +87,20 @@ namespace Encrypted_Chat
                 reader = new StreamReader(client.GetStream());
                 writer = new StreamWriter(client.GetStream());
                 //exchange public keys
-                encryptionManager.partner_publicKey = session.GetPublicKey(client, encryptionManager._publicKey.Length);
+
+
+
                 session.SendPublicKey(client, encryptionManager._publicKey);
 
+                using var rsa = new RSACryptoServiceProvider(2048);
+                rsa.ImportRSAPrivateKey(encryptionManager._privateKey, out var _);
 
-
-
-                session.key = Convert.FromBase64String(reader.ReadLine());
+                session.key  = Convert.FromBase64String(reader.ReadLine());
                 session.iv = Convert.FromBase64String(reader.ReadLine());
+                session.key = rsa.Decrypt(session.key, RSAEncryptionPadding.Pkcs1);
+                session.iv = rsa.Decrypt(session.iv, RSAEncryptionPadding.Pkcs1);
+
+                
 
 
             }
