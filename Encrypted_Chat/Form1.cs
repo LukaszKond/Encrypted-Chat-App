@@ -47,7 +47,7 @@ namespace Encrypted_Chat
             int port = Convert.ToInt32(txtPort.Text);
 
             encryptionManager = new EncryptionManager();
-            encryptionManager.GenerateKeys();
+            encryptionManager.GenerateKeys(txtNazwa.Text, txtPassword.Text);
             
 
             try // connect to server
@@ -151,7 +151,8 @@ namespace Encrypted_Chat
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("You are using different encryption modes with your partner!");
+                    MessageBox.Show("Error. Please check if you are using same encryption mode as your partner");
+                    //MessageBox.Show("You are using different encryption modes with your partner!");
                 }
             }
         }
@@ -266,6 +267,16 @@ namespace Encrypted_Chat
         }
 
         private void FileProgressBar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EncTypeBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

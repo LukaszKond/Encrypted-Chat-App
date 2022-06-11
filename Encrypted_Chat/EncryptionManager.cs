@@ -21,12 +21,63 @@ namespace Encrypted_Chat
         public byte[] partner_publicKey;
 
         private float encryptionProgress;
-        public void GenerateKeys()
+
+
+        public bool GenerateKeys(String user, String pass)
         {
-             rsa = RSA.Create();
-            _privateKey = rsa.ExportRSAPrivateKey();
-            _publicKey = rsa.ExportRSAPublicKey();
+            string currentPath = Directory.GetCurrentDirectory();           
+            currentPath += "/Users/"+user;
+            SHA256 sha256Hash = SHA256.Create();
+            byte[] pass_hash = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(pass));
+            Byte[] user_iv;
+            if (!File.Exists(Path.Combine(currentPath, "/privateKey/privateKey.key"))) //creating new user
+            {
+                Directory.CreateDirectory(Path.Combine(currentPath));
+                Directory.CreateDirectory(Path.Combine(currentPath+"/publicKey"));
+                Directory.CreateDirectory(Path.Combine(currentPath+"/privateKey"));
+                rsa = RSA.Create();
+                _privateKey = rsa.ExportRSAPrivateKey();
+                _publicKey = rsa.ExportRSAPublicKey();
+                using var aes = Aes.Create();
+                user_iv = aes.IV;
+                File.WriteAllBytes(currentPath+"/privateKey/privateKey.key", encryptCBC(_privateKey,pass_hash, user_iv));
+                File.WriteAllBytes(currentPath + "/publicKey/publicKey.key", encryptCBC(_publicKey, pass_hash, user_iv));
+                File.WriteAllBytes(currentPath + "/localKey", pass_hash);
+                File.WriteAllBytes(currentPath+ "/localIV", user_iv);
+                return true;
+            }
+           
+            else
+            {
+                if (pass_hash == File.ReadAllBytes(currentPath + "/localKey.key"))
+                {
+                    user_iv = File.ReadAllBytes(currentPath + "/localIV");
+                    _privateKey = decryptCBC(File.ReadAllBytes(currentPath + "/privateKey/privateKey.key"),pass_hash, user_iv);
+                    _publicKey = decryptCBC(File.ReadAllBytes(currentPath + "/publicKey/publicKey.key"), pass_hash, user_iv);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
+
+        public byte[] encryptCBC(Byte[] key, byte[] local_key, byte[] IV)
+        {
+            using var aes = Aes.Create();
+            aes.Key = local_key;
+            aes.IV = IV;
+            return aes.EncryptCbc(key, IV);
+        }
+        public Byte[] decryptCBC(byte[] key, byte[] local_key, byte[] IV)
+        {
+            using var aes = Aes.Create();
+            aes.Key = local_key;
+            aes.IV = IV;
+            return aes.DecryptCbc(key, IV);
+        }
+
         public byte[] encryptCBC(string message)
         {
             using var aes = Aes.Create();
