@@ -31,7 +31,7 @@ namespace Encrypted_Chat
             SHA256 sha256Hash = SHA256.Create();
             byte[] pass_hash = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(pass));
             Byte[] user_iv;
-            if (!File.Exists(Path.Combine(currentPath, "/privateKey/privateKey.key"))) //creating new user
+            if (!Directory.Exists(currentPath)) //creating new user
             {
                 Directory.CreateDirectory(Path.Combine(currentPath));
                 Directory.CreateDirectory(Path.Combine(currentPath+"/publicKey"));
@@ -46,11 +46,11 @@ namespace Encrypted_Chat
                 File.WriteAllBytes(currentPath + "/localKey", pass_hash);
                 File.WriteAllBytes(currentPath+ "/localIV", user_iv);
                 return true;
-            }
-           
-            else
+            }           
+            else //user already exists
             {
-                if (pass_hash == File.ReadAllBytes(currentPath + "/localKey.key"))
+                var saved_key = File.ReadAllBytes(currentPath + "/localKey");
+                if (pass_hash == saved_key)
                 {
                     user_iv = File.ReadAllBytes(currentPath + "/localIV");
                     _privateKey = decryptCBC(File.ReadAllBytes(currentPath + "/privateKey/privateKey.key"),pass_hash, user_iv);
@@ -59,6 +59,7 @@ namespace Encrypted_Chat
                 }
                 else
                 {
+                    MessageBox.Show("You have entered wrong password!");
                     return false;
                 }
             }

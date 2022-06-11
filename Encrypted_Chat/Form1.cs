@@ -47,7 +47,8 @@ namespace Encrypted_Chat
             int port = Convert.ToInt32(txtPort.Text);
 
             encryptionManager = new EncryptionManager();
-            encryptionManager.GenerateKeys(txtNazwa.Text, txtPassword.Text);
+            var result = encryptionManager.GenerateKeys(txtNazwa.Text, txtPassword.Text);
+            if (result == false) { this.Close(); }
 
 
             try // connect to server
