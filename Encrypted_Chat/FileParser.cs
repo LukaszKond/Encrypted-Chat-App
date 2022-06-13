@@ -14,19 +14,21 @@ namespace Encrypted_Chat
             return getStringBetweenSlashes(
                     RemovePrefix(input));
         }
-        public static string GetChunkNumber(string input)
+        public static int GetChunkNumber(string input)
         {
-            return getStringBetweenSlashes(
-                    RemovePart(
-                    RemovePrefix(input)));
-        }
-
-        public static string GetChunkCount(string input)
-        {
-            return getStringBetweenSlashes(
-                    RemovePart(
+            return int.Parse(
+                    getStringBetweenSlashes(
                     RemovePart(
                     RemovePrefix(input))));
+        }
+
+        public static int GetChunkCount(string input)
+        {
+            return int.Parse(
+                    getStringBetweenSlashes(
+                    RemovePart(
+                    RemovePart(
+                    RemovePrefix(input)))));
         }
 
         public static string RemovePrefix(string input)
@@ -48,6 +50,10 @@ namespace Encrypted_Chat
                     .Remove(0, 1);
         }
 
+        public static bool isFile(string input)
+        {
+            return input.StartsWith(prefix);
+        }
 
         private static string getStringBetweenSlashes(string input)
         {

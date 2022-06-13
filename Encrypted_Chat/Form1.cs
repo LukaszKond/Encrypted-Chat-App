@@ -155,8 +155,8 @@ namespace Encrypted_Chat
 
                     this.txtStatus.Invoke(new MethodInvoker(delegate ()
                     {
-                        if (parseFile(received))
-                            txtStatus.Text += ("O przyszed³ plik");
+                        if (FileParser.isFile(received))
+                            manageReceivedFile(received);
                         else
                             txtStatus.Text += ("[Partner] : " + received + "\r\n");
 
@@ -170,13 +170,29 @@ namespace Encrypted_Chat
             }
         }
 
-        private bool parseFile(string file)
+        private void manageReceivedFile(string input)
         {
-            if (!file.StartsWith("THIS IS A FILE")) return false;
+            removeFinishedFileManagers();
 
+            FileManager fileManager = new FileManager(input) { };
+            if (fileManagers.Contains(fileManager))
+            {
+                fileManagers.Find(x => x.Equals(fileManager)).addChunk(input);
+            }
+            else
+            {
+                fileManagers.Add(fileManager);
+                txtStatus.Text += ("[Partner send a file] : " + FileParser.GetName(received) + "\r\n");
+            }
+        }
 
-
-            return true;
+        private void removeFinishedFileManagers()
+        {
+            for (int i = fileManagers.Count - 1; i >= 0; i--)
+            {
+                if (fileManagers[i].done)
+                    fileManagers.RemoveAt(i);
+            }
         }
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
