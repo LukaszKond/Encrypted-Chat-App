@@ -50,7 +50,7 @@ namespace Encrypted_Chat
             else //user already exists
             {
                 var saved_key = File.ReadAllBytes(currentPath + "/localKey");
-                if (pass_hash == saved_key)
+                if (pass_hash.SequenceEqual(saved_key))
                 {
                     user_iv = File.ReadAllBytes(currentPath + "/localIV");
                     _privateKey = decryptCBC(File.ReadAllBytes(currentPath + "/privateKey/privateKey.key"),pass_hash, user_iv);
