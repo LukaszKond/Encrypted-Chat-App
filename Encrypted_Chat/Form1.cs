@@ -30,6 +30,7 @@ namespace Encrypted_Chat
         byte[] receivedEnc;
 
         private const string defaultSelectedFileText = "No file selected";
+        private float fileTransferProgress = 0.0f;
 
         List<FileManager> fileManagers = new List<FileManager> { };
         public Form1()
@@ -155,7 +156,7 @@ namespace Encrypted_Chat
 
                     this.txtStatus.Invoke(new MethodInvoker(delegate ()
                     {
-                        if (FileParser.isFile(received))
+                        if (FileParser.IsFile(received))
                             manageReceivedFile(received);
                         else
                             txtStatus.Text += ("[Partner] : " + received + "\r\n");
@@ -239,20 +240,45 @@ namespace Encrypted_Chat
 
         private void encryptAndSendFile(CipherMode cipher)
         {
+            new Thread(updateProgressBar).Start();
 
-            string encryptedFilePath = "";
-            try
+            const long size = 10_000_000;
+
+            string fileName = Path.GetFileName(fileToSend);
+            using FileStream fsIn = new FileStream(fileToSend, FileMode.Open);
+
+            int chunksCount = (int)(fsIn.Length / size) + 1;
+
+            byte[] readBytes = new byte[size];
+            for (int i = 1; i <= chunksCount; i++)
             {
-                new Thread(updateProgressBar).Start();
-                encryptedFilePath = encryptionManager.encryptFile(fileToSend, cipher);
+                long left = fsIn.Length;
+                if (left < size) readBytes = new byte[left];
+                fsIn.Read(readBytes);
+                string message = Convert.ToBase64String(readBytes);
+                //int indexToCut = message.IndexOf("\0");
+                //if (indexToCut >= 0) message = message.Substring(0, indexToCut);
+                message = FileParser.AddMetaData(message, fileName, i, chunksCount);
 
+                byte[] byteTab;
+                if (radioECB.Checked)
+                {
+                    byteTab = encryptionManager.encryptECB(message);
+                }
+                else
+                {
+                    byteTab = encryptionManager.encryptCBC(message);
+                }
+                message = Convert.ToBase64String(byteTab);
 
-                // at the end delete file
+                writer.WriteLine(message);
+                fileTransferProgress = (float)i / chunksCount;
             }
-            catch (Exception ex)
+
+            this.txtStatus.Invoke(new MethodInvoker(delegate ()
             {
-                Console.WriteLine(ex.Message);
-            }       
+                txtStatus.Text += ("[File sent]  : " + fileName + "\r\n");
+            }));
         }
 
         private void updateProgressBar()
@@ -264,9 +290,9 @@ namespace Encrypted_Chat
                 Thread.Sleep(100);
                 FileProgressBar.Invoke(new MethodInvoker(delegate ()
                 {
-                    FileProgressBar.Value = (int) (encryptionManager.getEncryptionProgress() * 100);
+                    FileProgressBar.Value = (int) (fileTransferProgress * 100);
                 }));
-                if (encryptionManager.getEncryptionProgress() >= 1) return;
+                if (fileTransferProgress >= 1) return;
             }
         }
 

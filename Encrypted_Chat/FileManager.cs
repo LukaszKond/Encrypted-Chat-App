@@ -39,7 +39,7 @@ namespace Encrypted_Chat
             using FileStream fs = File.Create(fileName);
 
             foreach (string data in chuncksReceived.Values)
-                fs.Write(new UTF8Encoding(true).GetBytes(data));
+                fs.Write(Convert.FromBase64String(data));
 
             done = true;
         }

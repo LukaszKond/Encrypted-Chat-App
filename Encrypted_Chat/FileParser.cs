@@ -50,9 +50,14 @@ namespace Encrypted_Chat
                     .Remove(0, 1);
         }
 
-        public static bool isFile(string input)
+        public static bool IsFile(string input)
         {
             return input.StartsWith(prefix);
+        }
+
+        public static string AddMetaData(string data, string name, int chunkNumber, int chunkCount)
+        {
+            return prefix + "/" + name + "/" + chunkNumber + "/" + chunkCount + "/" + data;
         }
 
         private static string getStringBetweenSlashes(string input)
@@ -61,5 +66,8 @@ namespace Encrypted_Chat
             int secondSlashIndex = input.IndexOf('/', firstSlashIndex + 1);
             return input.Substring(firstSlashIndex + 1, secondSlashIndex - 1);
         }
+
+
+
     }
 }
