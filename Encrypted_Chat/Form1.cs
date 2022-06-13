@@ -31,6 +31,7 @@ namespace Encrypted_Chat
 
         private const string defaultSelectedFileText = "No file selected";
 
+        List<FileManager> fileManagers = new List<FileManager> { };
         public Form1()
         {
             InitializeComponent();
@@ -149,9 +150,16 @@ namespace Encrypted_Chat
                     {
                         received = encryptionManager.decryptCBC(byteTab2);
                     }
+
+                    
+
                     this.txtStatus.Invoke(new MethodInvoker(delegate ()
                     {
-                        txtStatus.Text += ("[Partner] : " + received + "\r\n");
+                        if (parseFile(received))
+                            txtStatus.Text += ("O przyszed³ plik");
+                        else
+                            txtStatus.Text += ("[Partner] : " + received + "\r\n");
+
                     }));
                 }
                 catch (Exception ex)
@@ -162,6 +170,14 @@ namespace Encrypted_Chat
             }
         }
 
+        private bool parseFile(string file)
+        {
+            if (!file.StartsWith("THIS IS A FILE")) return false;
+
+
+
+            return true;
+        }
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
