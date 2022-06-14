@@ -256,8 +256,6 @@ namespace Encrypted_Chat
                 if (left < size) readBytes = new byte[left];
                 fsIn.Read(readBytes);
                 string message = Convert.ToBase64String(readBytes);
-                //int indexToCut = message.IndexOf("\0");
-                //if (indexToCut >= 0) message = message.Substring(0, indexToCut);
                 message = FileParser.AddMetaData(message, fileName, i, chunksCount);
 
                 byte[] byteTab;

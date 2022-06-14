@@ -66,8 +66,5 @@ namespace Encrypted_Chat
             int secondSlashIndex = input.IndexOf('/', firstSlashIndex + 1);
             return input.Substring(firstSlashIndex + 1, secondSlashIndex - 1);
         }
-
-
-
     }
 }

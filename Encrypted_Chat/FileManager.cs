@@ -42,6 +42,7 @@ namespace Encrypted_Chat
                 fs.Write(Convert.FromBase64String(data));
 
             done = true;
+            chuncksReceived.Clear();
         }
     }
 }
